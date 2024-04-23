@@ -1,3 +1,10 @@
 from django.contrib import admin
+from users.models import User
 
-# Register your models here.
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    fields = ['username', 'email', 'phone', 'city']
+    list_display = ['username', 'email', 'phone', 'city']
+    list_filter = ['username', 'city']
+    readonly_fields = ['username']
