@@ -7,7 +7,7 @@ class Supplier(models.Model):
     """
     name = models.CharField(unique=True, max_length=200, verbose_name="Наименование", db_index=True)
     contacts = models.OneToOneField('Contacts', on_delete=models.CASCADE, verbose_name='Контакты')
-    products = models.ForeignKey('Products', on_delete=models.CASCADE, verbose_name='Товар', db_index=True)
+    products = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Товар', db_index=True)
     level = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='Уровень')
 
     def __str__(self):
