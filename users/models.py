@@ -10,6 +10,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, verbose_name='почта')
     phone = models.CharField(max_length=20, verbose_name='телефон', **NULLABLE)
     city = models.CharField(max_length=50, verbose_name='город', **NULLABLE)
+    is_active = models.BooleanField(default=True, verbose_name="Активность сотрудника")
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []

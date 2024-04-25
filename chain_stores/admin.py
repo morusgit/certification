@@ -1,24 +1,30 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django_mptt_admin.admin import DjangoMpttAdmin
+
 from chain_stores.models import Supplier, Contacts, Product
+
 
 
 @admin.register(Supplier)
 class SupplierAdmin(admin.ModelAdmin):
-    fields = ['name', 'contacts', 'products', 'provider', 'arrears']
-    list_display = ['name', 'contacts', 'provider', 'get_provider', 'arrears', 'release_date', 'get_products']
-    list_display_links = ['name', 'get_provider']
+    fields = ['name', 'type', 'email', 'contacts', 'products', 'arrears', 'parent', 'supplier_level']
+    list_display = ['name', 'get_parent', 'supplier_level', 'email', 'contacts', 'arrears', 'release_date', 'get_products']
+    list_display_links = ['name']
     list_filter = ['contacts__city']
     filter_horizontal = ['products']
     actions = ['set_arrears']
+    readonly_fields = ['supplier_level']
 
     @admin.display(description="Товары")
     def get_products(self, instance):
         return [product.name for product in instance.products.all()]
 
-    @admin.display(description="Ссылка на поставщика")
-    def get_provider(self, obj):
-        return format_html("<a href='{url}'>{url}</a>", url=obj.provider_id)
+    @admin.display(description="Поставщик")
+    def get_parent(self, obj):
+        if obj.parent is not None:
+            return format_html("<a href='{url}'>{name}</a>", url=obj.parent.id, name=obj.parent.name)
+        return "-"
 
     @admin.action(description="Удалить заделженность перед поставщиком")
     def set_arrears(self, request, queryset):
@@ -28,8 +34,8 @@ class SupplierAdmin(admin.ModelAdmin):
 
 @admin.register(Contacts)
 class ContactsAdmin(admin.ModelAdmin):
-    fields = ['email', 'country', 'city', 'street', 'house']
-    list_display = ['email', 'country', 'city', 'street', 'house']
+    fields = ['country', 'city', 'street', 'house']
+    list_display = ['country', 'city', 'street', 'house']
     list_filter = ['country', 'city', 'street', 'house']
 
 
