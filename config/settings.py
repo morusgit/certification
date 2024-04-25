@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'chain_stores',
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_mptt_admin',
 ]
 
 MIDDLEWARE = [
