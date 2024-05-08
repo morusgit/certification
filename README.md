@@ -39,7 +39,7 @@
 
 ## Установка и запуск проекта:
 
-1. клонировать репозиторий: `git clone https://github.com/morusgit/Diplom` 
+1. клонировать репозиторий: `git clone https://github.com/morusgit/certification` 
 2. установить виртуальную среду: `python -m venv .venv` (linux: `sudo apt install python3.10-venv` и 
    `python3 -m venv .venv`)
 3. активировать виртуальную среду(Windows): `.venv\Scripts\Activate.ps1`
