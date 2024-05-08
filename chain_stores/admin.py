@@ -1,9 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from django_mptt_admin.admin import DjangoMpttAdmin
-
 from chain_stores.models import Supplier, Contacts, Product
-
 
 
 @admin.register(Supplier)

@@ -1,5 +1,4 @@
 from django.db import models
-from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
 
@@ -9,18 +8,18 @@ class SupplierType(models.Choices):
     RC = 'Розничная сеть'
 
 
-class Supplier(MPTTModel):
+class Supplier(models.Model):
     """
     Модель поставщика
     """
     name = models.CharField(unique=True, max_length=200, verbose_name="Наименование", db_index=True)
     type = models.CharField(choices=SupplierType.choices, default=SupplierType.ZAVOD, verbose_name='Тип')
-    contacts = models.OneToOneField('Contacts', on_delete=models.CASCADE, verbose_name='Контакты', unique=False)
+    contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, verbose_name='Контакты')
     email = models.EmailField(blank=True, verbose_name="E-mail")
     products = models.ManyToManyField('Product', verbose_name='Товар', db_index=True)
     arrears = models.FloatField(null=True, blank=True, verbose_name="Задолженность перед поставщиком")
     release_date = models.DateTimeField(auto_now_add=True, verbose_name="Время создания", db_index=True)
-    parent = TreeForeignKey('self', on_delete=models.PROTECT, null=True, related_name='children',
+    parent = models.ForeignKey('self', on_delete=models.PROTECT, null=True, blank=True, related_name='children',
                             db_index=True, verbose_name='Поставщик')
     supplier_level = models.IntegerField(blank=True, verbose_name="Уровень")
 
@@ -33,22 +32,22 @@ class Supplier(MPTTModel):
             self.supplier_level = 0
         elif self.parent is not None:
             parent = Supplier.objects.get(pk=self.parent.pk)
-            if (parent.type == SupplierType.ZAVOD.value and self.type == SupplierType.RC.value) or (parent.type == SupplierType.ZAVOD.value and self.type == SupplierType.IP.value):
+            if ((parent.type == SupplierType.ZAVOD.value and self.type == SupplierType.RC.value) or
+                    (parent.type == SupplierType.ZAVOD.value and self.type == SupplierType.IP.value)):
                 self.supplier_level = 1
-            elif parent.type == SupplierType.RC.value and self.type == SupplierType.IP.value:
+            elif (parent.type == SupplierType.RC.value and self.type == SupplierType.IP.value)\
+                    or (parent.type == SupplierType.RC.value and self.type == SupplierType.RC.value)\
+                    or parent.type == SupplierType.IP.value and self.type == SupplierType.IP.value:
                 self.supplier_level = 2
 
         return self.supplier_level
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.name} {self.contacts} {self.type}'
 
     class Meta:
         verbose_name = 'Поставщик'
         verbose_name_plural = 'Поставщики'
-
-    class MPTTMeta:
-        order_insertion_by = ['name']
 
 
 class Contacts(models.Model):

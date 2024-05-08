@@ -1,0 +1,78 @@
+POST http://localhost:8000/chain_stores/create/
+Content-Type: application/json
+
+{
+  "name": "Завод2",
+  "type": "Завод",
+  "contacts": 4,
+  "email": "test@test.com",
+  "products": [
+    1
+  ],
+  "arrears": 0,
+  "parent": 4
+}
+
+###
+POST http://localhost:8000/chain_stores/create/
+Content-Type: application/json
+
+{
+  "name": "ИП Рога и Копыта",
+  "type": "ИП",
+  "contacts": 5,
+  "email": "test@test.com",
+  "products": [
+    1
+  ],
+  "arrears": 0,
+  "parent": 9
+}
+
+###
+PUT http://localhost:8000/chain_stores/update/10/
+Content-Type: application/json
+
+{
+  "name": "Завод2",
+  "type": "Завод",
+  "contacts": 4,
+  "email": "test@test.com",
+  "products": [
+    1
+  ],
+  "arrears": 100,
+  "parent": 4
+}
+
+###
+GET http://localhost:8000/chain_stores/retrieve/9/
+Content-Type: application/json
+
+{
+  "name": "ИП Рога и Копыта",
+  "type": "ИП",
+  "contacts": 5,
+  "email": "ip@ip.com",
+  "products": [
+    1
+  ],
+  "arrears": 0,
+  "parent": 4
+}
+
+###
+DELETE http://localhost:8000/chain_stores/delete/10/
+Content-Type: application/json
+
+{
+  "name": "ИП Рога и Копыта",
+  "type": "ИП",
+  "contacts": 5,
+  "email": "ip@ip.com",
+  "products": [
+    1
+  ],
+  "arrears": 0,
+  "parent": 4
+}

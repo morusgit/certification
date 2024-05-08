@@ -1,8 +1,8 @@
-from django.shortcuts import render
 from rest_framework import generics
-
-from chain_stores.models import Supplier, SupplierType, Contacts, Product
-from chain_stores.serializers import SupplierSerializers, ContactsSerializers, ProductSerializers
+from django_filters import rest_framework as filters
+from chain_stores.models import Supplier, Contacts, Product
+from chain_stores.serializers import SupplierSerializers, ContactsSerializers, ProductSerializers, \
+    SupplierUpdateSerializers
 
 
 class SupplierCreateView(generics.CreateAPIView):
@@ -18,7 +18,7 @@ class SupplierUpdateView(generics.UpdateAPIView):
     Представление для изменения поставщика
     """
     queryset = Supplier.objects.all()
-    serializer_class = SupplierSerializers
+    serializer_class = SupplierUpdateSerializers
 
 
 class SupplierListView(generics.ListAPIView):
@@ -27,6 +27,8 @@ class SupplierListView(generics.ListAPIView):
     """
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializers
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ['contacts__country', 'name']
 
 
 class SupplierRetrieveView(generics.RetrieveAPIView):
@@ -52,12 +54,14 @@ class ContactsCreateView(generics.CreateAPIView):
     queryset = Contacts.objects.all()
     serializer_class = ContactsSerializers
 
+
 class ContactsListView(generics.ListAPIView):
     """
     Представление для просмотра списка контактов
     """
     queryset = Contacts.objects.all()
     serializer_class = ContactsSerializers
+
 
 class ContactsUpdateView(generics.UpdateAPIView):
     """

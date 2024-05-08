@@ -1,5 +1,4 @@
 from django.urls import path
-
 from chain_stores.views import SupplierCreateView, SupplierListView, SupplierUpdateView, SupplierRetrieveView, \
     SupplierDestroyView, ContactsCreateView, ContactsListView, ContactsUpdateView, ProductListView, ProductCreateView, \
     ProductUpdateView

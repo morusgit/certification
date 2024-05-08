@@ -7,7 +7,6 @@ class UserSerializers(serializers.ModelSerializer):
     """
     Сериализатор для представления пользователя
     """
-
     def validate_password(self, value: str) -> str:
         """
         Hash value passed by user.

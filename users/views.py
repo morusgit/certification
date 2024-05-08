@@ -1,5 +1,4 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from users.models import User
 from users.serializers import UserSerializers
 
@@ -10,7 +9,6 @@ class UserListView(generics.ListAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializers
-    permission_classes = [IsAuthenticated]
 
 
 class UserCreateView(generics.CreateAPIView):
@@ -27,7 +25,6 @@ class UserRetrieveView(generics.RetrieveAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializers
-    permission_classes = [IsAuthenticated]
 
 
 class UserUpdateView(generics.UpdateAPIView):
@@ -36,7 +33,6 @@ class UserUpdateView(generics.UpdateAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializers
-    permission_classes = [IsAdminUser]
 
 
 class UserDestroyView(generics.DestroyAPIView):
@@ -45,4 +41,3 @@ class UserDestroyView(generics.DestroyAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializers
-    permission_classes = [IsAdminUser]
